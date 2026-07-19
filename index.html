@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALEX RIVERA :: MULTIMEDIA_ARTIST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= BOOT SEQUENCE ================= -->
+  <div id="boot-screen">
+    <div class="boot-inner">
+      <div class="boot-line" data-text="SYS::PORTFOLIO_OS v3.01 — INITIALIZING"></div>
+      <div class="boot-line" data-text="&gt; MOUNTING SHADER_ENGINE..................... OK"></div>
+      <div class="boot-line" data-text="&gt; LOADING WEBGL_CONTEXT......................  OK"></div>
+      <div class="boot-line" data-text="&gt; CALIBRATING DITHER_GRID....................  OK"></div>
+      <div class="boot-line" data-text="&gt; ESTABLISHING NODE :: 4.7110°N 74.0721°W....  OK"></div>
+      <div class="boot-line" data-text="&gt; USER_PROFILE LOADED :: role='multimedia_artist'"></div>
+      <div class="boot-progress"><div class="boot-progress-fill"></div></div>
+      <button id="skip-boot">[ SKIP ]</button>
+    </div>
+  </div>
+
+  <!-- ================= BACKGROUND ================= -->
+  <canvas id="terrain"></canvas>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- ================= HUD TOP BAR ================= -->
+  <header class="hud-bar">
+    <div class="hud-left">
+      <span class="hud-dot"></span>
+      <span id="clock">00:00:00</span>
+      <span class="hud-sep">//</span>
+      <span>NODE_ACTIVE</span>
+    </div>
+    <div class="hud-right">
+      <span>SIG:<b id="sig">83</b>%</span>
+      <span class="hud-sep">//</span>
+      <span>OUTPUT::SCREEN</span>
+    </div>
+  </header>
+
+  <!-- ================= NAV ================= -->
+  <nav class="site-nav">
+    <a href="#hero" class="logo">P_FALCON<span class="blink">_</span></a>
+    <div class="nav-links">
+      <a href="#about" data-hover>[01] ABOUT</a>
+      <a href="#works" data-hover>[02] WORKS</a>
+      <a href="#contact" data-hover>[03] CONTACT</a>
+    </div>
+    <button class="nav-burger" id="nav-burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section id="hero">
+      <div class="hero-tag">// USER_PROFILE :: INTERDISCIPLINARY_MEDIA_ARTIST</div>
+      <h1 class="glitch-heading" data-text="PIPER FALCON">PIPER FALCON</h1>
+      <p class="hero-sub">I create immersive environments that merge research, real-time systems, and spatial storytelling. My practice<br>
+        bridges 3D modeling, generative visuals, and cultural research to explore ritual, emotion, and embodied experience.</p>
+      <p class="hero-sub"> <br>
+        3D · Real-time visuals · Interactive installations</p>
+      <div class="hero-cta-row">
+        <a href="#works" class="btn-primary" data-hover>VIEW_WORKS →</a>
+        <a href="#contact" class="btn-ghost" data-hover>GET IN TOUCH</a>
+      </div>
+      <div class="scroll-hint">
+        <span>SCROLL</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section id="about">
+      <div class="section-label">// LOADING :: SECTION_01</div>
+      <h2 class="section-title">ABOUT_ME</h2>
+
+      <div class="terminal-card about-grid">
+        <div class="terminal-card-head">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-card-title">profile.init</span>
+        </div>
+        <div class="terminal-card-body">
+          <pre class="init-block">[init] user.id     = 'Alex Rivera'
+[init] role        = 'Multimedia Artist / Creative Coder'
+[init] origin      = 'Bogotá, Colombia'
+[init] tools       = ['TouchDesigner', 'Blender', 'Three.js', 'Unreal Engine', 'GLSL']
+[init] focus       = 'Real-time visuals, 3D, generative & interactive installation art'</pre>
+
+          <p class="about-copy">
+            I'm a multimedia artist working across 3D modeling, real-time graphics and
+            interactive installation. My practice lives at the intersection of code and
+            sculpture — building generative systems that respond to light, sound and
+            the people standing in front of them. Recent work has shown in public
+            installations, gallery projections and branded digital experiences.
+          </p>
+
+          <div class="tag-row">
+            <span class="tag">3D_MODELING</span>
+            <span class="tag">GENERATIVE_ART</span>
+            <span class="tag">REAL-TIME_RENDER</span>
+            <span class="tag">PROJECTION_MAPPING</span>
+            <span class="tag">CREATIVE_CODE</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num" data-count="47">0</span><span class="stat-label">PROJECTS_SHIPPED</span></div>
+        <div class="stat"><span class="stat-num" data-count="12">0</span><span class="stat-label">INSTALLATIONS</span></div>
+        <div class="stat"><span class="stat-num" data-count="6">0</span><span class="stat-label">YEARS_ACTIVE</span></div>
+      </div>
+    </section>
+
+    <!-- ================= WORKS ================= -->
+    <section id="works">
+      <div class="section-label">// LOADING :: SECTION_02</div>
+      <h2 class="section-title">WORKS</h2>
+      <p class="section-desc">Selected projects. Hover to preview signal — click to open full case file.</p>
+
+      <div class="works-grid" id="works-grid">
+        <!-- cards injected by script.js -->
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact">
+      <div class="section-label">// LOADING :: SECTION_03</div>
+      <h2 class="section-title">CONTACT</h2>
+
+      <div class="terminal-card contact-card">
+        <div class="terminal-card-head">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-card-title">contact.sh — bash</span>
+        </div>
+        <div class="terminal-card-body">
+          <form id="contact-form">
+            <label class="term-label">$ set name =</label>
+            <input type="text" name="name" required placeholder="your_name" data-hover>
+
+            <label class="term-label">$ set email =</label>
+            <input type="email" name="email" required placeholder="you@domain.com" data-hover>
+
+            <label class="term-label">$ set message =</label>
+            <textarea name="message" rows="4" required placeholder="type your message..." data-hover></textarea>
+
+            <button type="submit" class="btn-primary" data-hover>./send_message.sh</button>
+            <div id="form-response" class="form-response"></div>
+          </form>
+
+          <div class="social-row">
+            <a href="#" data-hover>INSTAGRAM ↗</a>
+            <a href="#" data-hover>VIMEO ↗</a>
+            <a href="#" data-hover>ARE.NA ↗</a>
+            <a href="mailto:hello@alexrivera.art" data-hover>EMAIL ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 ALEX_RIVERA</span>
+    <span>BUILT WITH HTML // CSS // JS</span>
+    <span id="footer-clock"></span>
+  </footer>
+
+  <!-- ================= PROJECT MODAL ================= -->
+  <div id="project-modal" class="modal">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <button class="modal-close" data-close>[ X ]</button>
+      <div class="modal-meta">
+        <span id="modal-year"></span>
+        <span class="hud-sep">//</span>
+        <span id="modal-category"></span>
+      </div>
+      <h3 id="modal-title"></h3>
+      <div class="modal-details">
+        <div><span class="term-label">CLIENT::</span><span id="modal-client"></span></div>
+        <div><span class="term-label">TOOL::</span><span id="modal-tool"></span></div>
+        <div><span class="term-label">TYPE::</span><span id="modal-type"></span></div>
+      </div>
+      <p id="modal-desc"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
