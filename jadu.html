@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JADU HEART — Transmission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chrome-100:#f2f4f2;
+    --chrome-200:#c7d0ce;
+    --chrome-300:#6d7775;
+    --chrome-400:#4b5553;
+    --steel:#d9fff0;
+    --ink:#e8eeeb;
+    --phosphor:#00e08a;
+    --phosphor-soft:#6dffc4;
+    --phosphor-dim:rgba(0,224,138,0.14);
+    --glass-hi:rgba(255,255,255,0.75);
+    --line:rgba(20,26,24,0.1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    overflow-x:hidden;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 10%, rgba(0,224,138,0.14), transparent 65%),
+      radial-gradient(ellipse 50% 50% at 80% 80%, rgba(80,120,255,0.12), transparent 70%),
+      linear-gradient(180deg, #050807 0%, #101716 45%, #050807 100%);
+  }
+
+  .boot-screen{
+      position:fixed;
+      inset:0;
+      background:#020403;
+      z-index:9999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'JetBrains Mono', monospace;
+      color:#00e08a;
+      animation:bootExit 1.5s ease forwards;
+      animation-delay:4s;
+  }
+
+  .boot-text{
+      font-size:.8rem;
+      letter-spacing:.25em;
+      line-height:2;
+      text-align:left;
+  }
+
+  .boot-text p{
+      opacity:0;
+      animation:terminalLine .5s forwards;
+  }
+
+  .boot-text p:nth-child(1){
+      animation-delay:.5s;
+  }
+
+  .boot-text p:nth-child(2){
+      animation-delay:1.3s;
+  }
+
+  .boot-text p:nth-child(3){
+      animation-delay:2.1s;
+  }
+
+  .boot-text .found{
+      animation-delay:3s;
+      text-shadow: 0 0 20px #00e08a;
+  }
+
+  @keyframes terminalLine{
+      from{
+          opacity:0;
+          transform:translateX(-10px);
+      }
+      to{
+          opacity:1;
+          transform:translateX(-10px);
+      }
+  }
+
+  @keyframes bootExit{
+      0%{
+          opacity:1;
+      }
+      80%{
+          opacity:1;
+      }
+      100%{
+          opacity:0; visibility:hidden;
+      }
+  }
+
+  .boot-screen::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,.04), rgba(255,255,255,.04) 1px, transparent 2px, transparent 5px);
+      animation:flicker .12s infinite;
+  }
+
+  @keyframes flicker{
+      0%{
+          opacity:0.3;
+      }
+      50%{
+          opacity:.8;
+      }
+      100%{
+          opacity:.4;
+      }
+  }
+
+
+  /* faint brushed-metal texture */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    background:repeating-linear-gradient(115deg, rgba(20,26,24,0.015) 0px, rgba(20,26,24,0.015) 1px, transparent 2px, transparent 5px);
+  }
+
+  body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:1000;
+      background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.25) 0px, rgba(255,255,255,0.25) 1px, transparent 2px, transparent 5px);
+      opacity:0.35;
+  }
+
+  .aurora{
+    position:fixed;
+    width:80vw; height:80vw;
+    max-width:760px; max-height:760px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(0,224,138,0.25), rgba(0,224,128,0.05) 30%, transparent 70%);
+    filter:blur(100px);
+    opacity:0.7;
+    mix-blend-mode:screen;
+    top:-12%; left:-14%;
+    z-index:0;
+    animation:drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift{ to{ transform:translate(12vw,10vh); } }
+
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--phosphor); color:var(--ink);}
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--phosphor);
+    font-size:0.78rem;
+  }
+
+  h1,h2,h3{ font-family:'Michroma', sans-serif; font-weight:400; letter-spacing:0.01em; }
+
+  .chrome-text{
+    background:linear-gradient(180deg,#ffffff 0%, #d3dbdd 40%, #8f9ba0 52%, #f8fbfb 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 1px 1px rgba(255,255,255,0.7));
+  }
+
+  /* ---------- OSD nav rail ---------- */
+  .osd-rail{
+    position:fixed;
+    top:50%; left:2rem;
+    transform:translateY(-50%);
+    z-index:200;
+    display:flex; flex-direction:column; gap:0.3rem;
+    padding:1rem 0.5rem;
+    border-radius:20px;
+    background:linear-gradient(160deg, rgba(255,255,255,0.65), rgba(255,255,255,0.22));
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    border:1px solid var(--glass-hi);
+    box-shadow:0 24px 44px -14px rgba(20,30,28,0.22), inset 0 1px 0 rgba(255,255,255,0.85);
+  }
+  .osd-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.6rem; letter-spacing:0.3em;
+    color:var(--chrome-400);
+    text-align:center;
+    text-transform:uppercase;
+    padding:0.3rem 0 0.6rem;
+    border-bottom:1px solid var(--line);
+    margin-bottom:0.4rem;
+  }
+  .osd-item{
+    display:flex; align-items:center; gap:0.65rem;
+    background:none; border:none; cursor:pointer;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem; letter-spacing:0.06em;
+    color:var(--chrome-400);
+    padding:0.6rem 0.85rem;
+    border-radius:10px;
+    position:relative;
+    transition:color .2s ease, background .2s ease;
+    white-space:nowrap;
+  }
+  .osd-item .osd-index{opacity:0.55; font-size:0.72rem;}
+  .osd-item:hover{ color:var(--steel); }
+  .osd-item.active{
+    color:var(--steel);
+    background:var(--phosphor-dim);
+    box-shadow:inset 0 0 0 1px rgba(0,224,138,0.45);
+  }
+  .osd-item.active::before{
+    content:"▸";
+    position:absolute; left:-0.85rem;
+    color:var(--phosphor);
+    text-shadow:0 0 8px rgba(0,224,138,0.8);
+    font-size:0.7rem;
+  }
+  .osd-hint{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.58rem;
+    color:var(--chrome-300);
+    text-align:center;
+    letter-spacing:0.1em;
+    padding-top:0.5rem;
+    border-top:1px solid var(--line);
+    margin-top:0.3rem;
+  }
+
+  /* ---------- top bar (logo, small on desktop) ---------- */
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:150;
+    display:flex; justify-content:center;
+    padding:1.4rem 1.5rem 0;
+    pointer-events:none;
+  }
+  .topbar .logo-mark{
+    pointer-events:auto;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.35em;
+    color:var(--chrome-400);
+    background:rgba(255,255,255,0.5);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--glass-hi);
+    padding:0.5rem 1rem;
+    border-radius:20px;
+  }
+  .logo-mark span{color:var(--phosphor);}
+
+  main{
+      position:relative; z-index:2; perspective:1000px}
+
+  canvas{
+      position:fixed;
+      top:0;
+      left:0;
+      pointer-events:none;
+  }
+
+  /* ---------- hero: lens barrel ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    padding:7rem 1.5rem 4rem;
+  }
+
+  .signal{
+      text-align:center;
+      position:relative;
+  }
+
+  .signal-meta{
+      font-family:'JetBrains Mono';
+      font-size:.7rem;
+      letter-spacing:.3rem;
+      color:#00e08a;
+      position:absolute;
+      top:-120px;
+      left:50%;
+      transform:translateX(-50%);
+      opacity:.6;
+  }
+
+  .lens-bezel{
+    padding:12px;
+    border-radius:40px;
+    background:linear-gradient(135deg,#f5f7f8,#c9d1d4 28%,#8b969c 52%,#f5f7f8 78%,#b9c2c7);
+    box-shadow:0 30px 70px -18px rgba(20,30,28,0.28);
+    width:min(940px,94vw);
+  }
+  .tv-frame{
+    position:relative;
+    aspect-ratio:16/9.5;
+    border-radius:30px;
+    background:linear-gradient(160deg, rgba(255,255,255,0.55), rgba(255,255,255,0.18));
+    backdrop-filter:blur(18px) saturate(150%);
+    -webkit-backdrop-filter:blur(18px) saturate(150%);
+    border:1px solid var(--glass-hi);
+    overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    box-shadow:inset 0 0px 80px rgba(0,224,138,0.12), inset 0 0px 80px rgba(0,224,138,0.12);
+    animation: screenFloat 8s ease-in-out infinite alternate;
+  }
+  @keyframes screenFloat{
+      from{
+          transform:translateY(0px);
+      }
+      to{
+          transform:translateY(-12px);
+      }
+  }
+
+  .sweep{
+    position:absolute; inset:0;
+    background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.5) 46%, transparent 62%);
+    transform:translateX(-60%);
+    animation:sweep 7s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes sweep{ 0%,100%{transform:translateX(-60%);} 50%{transform:translateX(60%);} }
+
+  .thirds{
+    position:absolute; inset:6%;
+    pointer-events:none;
+    background-image:
+      linear-gradient(to right, rgba(0,224,138,0.18) 1px, transparent 1px),
+      linear-gradient(to right, rgba(0,224,138,0.18) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,224,138,0.18) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,224,138,0.18) 1px, transparent 1px);
+    background-position:33.33% 0, 66.66% 0, 0 33.33%, 0 66.66%;
+    background-size:1px 100%, 1px 100%, 100% 1px, 100% 1px;
+    background-repeat:no-repeat;
+  }
+
+  .osd-readout{
+    position:absolute;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem;
+    color:var(--steel);
+    opacity:0.55;
+    letter-spacing:0.08em;
+  }
+  .readout-tl{top:1.4rem; left:1.6rem;}
+  .readout-tr{top:1.4rem; right:1.6rem;}
+  .readout-bl{bottom:1.4rem; left:1.6rem; display:flex; align-items:center; gap:0.4rem; opacity:0.85;}
+  .readout-br{bottom:1.4rem; right:1.6rem;}
+  .rec-tick{width:7px; height:7px; border-radius:50%; background:#ff5b5b; box-shadow:0 0 8px #ff5b5b; animation:blinkrec 1.4s infinite;}
+  @keyframes blinkrec{50%{opacity:0.2;}}
+
+  .af-corner{position:absolute; width:22px; height:22px; border:1.5px solid var(--phosphor); opacity:0.65;}
+  .af-corner.tl{top:14%; left:14%; border-right:none; border-bottom:none;}
+  .af-corner.tr{top:14%; right:14%; border-left:none; border-bottom:none;}
+  .af-corner.bl{bottom:14%; left:14%; border-right:none; border-top:none;}
+  .af-corner.br{bottom:14%; right:14%; border-left:none; border-top:none;}
+
+  .band-name{
+    font-family:'Audiowide', sans-serif;
+    font-size:clamp(4rem, 14vw, 13rem);
+    letter-spacing:0.08em;
+    text-shadow: 0 0 30px rgba(0,224,138,0.3);
+    line-height:.8;
+    background:linear-gradient(180deg,white,#7d8787);
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:flicker 5s infinite;
+  }
+
+  .signal-status{
+      margin-top:50px;
+      font-family:'JetBrains Mono';
+      letter-spacing:.4em;
+      font-size:.7rem;
+      color:#00e08a;
+  }
+
+  .enter{
+      margin-top:40px;
+      background:none;
+      border:1px solid #00e08a;
+      color:#00e08a;
+      padding: 15px 40px;
+      border-radius:100px;
+  }
+
+  .hero-tagline{
+    margin-top:1.2rem;
+    font-size:1rem;
+    color:var(--chrome-400);
+    max-width:34ch;
+    font-family:'Space Grotesk', sans-serif;
+  }
+  .hero-eyebrow{margin-bottom:1.2rem;}
+
+  /* ---------- section shell ---------- */
+  section{ max-width:1300px; margin:0 auto; padding:10rem 3rem; transform-style:preserve-3d; }
+  .section-head{
+    display:flex; align-items:baseline; gap:1rem;
+    margin-bottom:2.4rem;
+    padding-bottom:1.1rem;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head h2{ font-size:clamp(1.5rem,3.4vw,2.1rem); }
+
+  /* ---------- tour list ---------- */
+  .tour-list{ font-family:'JetBrains Mono', monospace; }
+  .tour-row{
+    display:grid;
+    grid-template-columns:100px 1fr 1fr auto;
+    gap:1rem; align-items:center;
+    padding:1.5rem;
+    border-bottom:1px solid rgba(0,224,138,.15);
+    background: linear-gradient(90deg,rgba(0,224,138,.04), transparent);
+    position:relative;
+    transition:background .2s ease;
+    margin-bottom:0.5rem;
+  }
+  .tour-row:hover{ background:rgba(0,224,138,0.05); }
+  .tour-row.past{ opacity:0.42; }
+  .tour-date{ color:var(--phosphor); font-size:0.95rem; }
+  .tour-city{ color:var(--ink); font-family:'Space Grotesk', sans-serif; font-size:1rem; }
+  .tour-venue{ color:var(--chrome-400); font-size:0.85rem; }
+  .tour-link{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
+    border:1px solid var(--phosphor); color:var(--steel);
+    padding:0.45rem 0.9rem; border-radius:20px;
+    white-space:nowrap;
+    transition:all .2s ease;
+  }
+  .tour-link:hover{ background:var(--phosphor); box-shadow:0 0 16px rgba(0,224,138,0.5); }
+  .tour-row.past .tour-link{ border-color:var(--chrome-300); color:var(--chrome-400); pointer-events:none; }
+
+  /* ---------- glass cards (music / merch) ---------- */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:1.4rem; }
+  .glass-card{
+    position:relative;
+    aspect-ratio:1/1.05;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius:4px;
+    background:rgba(255,255,255,0.03);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border:1px solid var(--glass-hi);
+    padding:1.2rem;
+    display:flex; flex-direction:column; justify-content:space-between;
+    overflow:hidden;
+    box-shadow:0 20px 40px -20px rgba(20,30,28,0.25), inset 0 1px 0 rgba(255,255,255,0.9);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+
+  .glass-card:nth-child(2n){
+      transform: translateY(40px);
+  }
+
+  .glass-card:nth-child(3n){
+      transform:translateY(-25px);
+  }
+
+  .glass-card:hover{ transform:translateY(-15px) rotateX(4deg) rotateY(-4deg); box-shadow:0 26px 50px -18px rgba(0,224,138,0.28), inset 0 1px 0 rgba(255,255,255,0.9); }
+  .gc-corner{ position:absolute; width:16px; height:16px; border:1.5px solid var(--phosphor); opacity:0; transition:opacity .25s ease, transform .25s ease; }
+  .glass-card:hover .gc-corner{ opacity:0.85; }
+  .gc-corner.tl{ top:10px; left:10px; border-right:none; border-bottom:none; transform:translate(4px,4px); }
+  .gc-corner.tr{ top:10px; right:10px; border-left:none; border-bottom:none; transform:translate(-4px,4px); }
+  .gc-corner.bl{ bottom:10px; left:10px; border-right:none; border-top:none; transform:translate(4px,-4px); }
+  .gc-corner.br{ bottom:10px; right:10px; border-left:none; border-top:none; transform:translate(-4px,-4px); }
+  .glass-card:hover .gc-corner{ transform:translate(0,0); }
+
+  .glass-card, .tv-frame{
+      transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+  }
+
+  .gc-thumb{
+    flex:1; display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    color:var(--chrome-400); letter-spacing:0.15em; text-transform:uppercase;
+  }
+  .gc-title{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:1.02rem; margin-top:0.5rem; }
+  .gc-meta{ font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--phosphor); margin-top:0.25rem; }
+
+  /* ---------- socials ---------- */
+  .channel-row{ display:flex; flex-wrap:wrap; gap:0.8rem; }
+  .channel{
+    font-family:'JetBrains Mono', monospace; font-size:0.85rem; letter-spacing:0.08em;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.4);
+    backdrop-filter:blur(10px);
+    padding:0.75rem 1.2rem; border-radius:20px;
+    color:var(--ink);
+    transition:all .2s ease;
+  }
+  .channel::before{ content:"CH ·"; color:var(--chrome-400); margin-right:0.4rem; }
+  .channel:hover{ border-color:var(--phosphor); box-shadow:0 0 16px rgba(0,224,138,0.3); color:var(--steel); }
+
+  .osd-item:hover, .channel:hover, .tour-link:hover{
+      animation: glitch .15s linear;
+  }
+
+  @keyframes glitch{
+      0%{
+          transform:translate(0);
+      }
+      30%{
+          transform:translate(-3px,2px);
+      }
+      60%{
+          transform:translate(3px, -2px);
+      }
+      100%{
+          transform:none;
+      }
+  }
+
+  footer{
+    text-align:center; padding:3.5rem 1.5rem 3rem;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color:var(--chrome-400); letter-spacing:0.08em;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:900px){
+    .osd-rail{
+      top:auto; bottom:1rem; left:50%; transform:translateX(-50%);
+      flex-direction:row; padding:0.5rem;
+    }
+    .osd-title, .osd-hint{ display:none; }
+    .osd-item{ padding:0.55rem 0.7rem; }
+    .osd-item.active::before{ left:50%; top:-0.7rem; transform:translateX(-50%); }
+    .hero{ padding-bottom:6rem; }
+  }
+  @media (max-width:600px){
+    .tour-row{ grid-template-columns:1fr; row-gap:0.3rem; text-align:left; }
+    .osd-item .osd-label{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .aurora, .sweep, .rec-tick{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="boot-screen">
+    <div class="boot-text">
+        <p>INITIALIZING SYSTEM...</p>
+        <p>CONNECTING TO SIGNAL...</p>
+        <p>SEARCHING FREQUENCY...</p>
+        <p class="found">SIGNAL FOUND</p>
+    </div>
+</div>
+<div class="aurora"></div>
+
+<div class="topbar">
+  <div class="logo-mark">JADU<span>·</span>HEART</div>
+</div>
+
+<nav class="osd-rail" id="osd-rail">
+  <div class="osd-title">Menu</div>
+  <button class="osd-item" data-target="#tour"><span class="osd-index">01</span><span class="osd-label">Tour</span></button>
+  <button class="osd-item" data-target="#music"><span class="osd-index">02</span><span class="osd-label">Music</span></button>
+  <button class="osd-item" data-target="#shop"><span class="osd-index">03</span><span class="osd-label">Shop</span></button>
+  <button class="osd-item" data-target="#connect"><span class="osd-index">04</span><span class="osd-label">Connect</span></button>
+  <div class="osd-hint">↑↓ navigate · ↵ select</div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="signal">
+      <div class="signal-meta">
+        SIGNAL // 07.15.26<br>
+        FREQUENCY // UNKNOWN
+       </div>
+       <h1 class="band-name">
+       JADU<br>
+       HEART
+       </h1>
+
+       <div class="signal-status">
+       TRANSMISSION active
+       </div>
+       <button class="enter">
+       Enter
+       </button>
+     </div>
+  </section>
+
+  <section id="tour">
+    <div class="section-head">
+      <span class="eyebrow">01</span>
+      <h2>Tour Dates</h2>
+    </div>
+    <div class="tour-list" id="tour-list"></div>
+  </section>
+
+  <section id="music">
+    <div class="section-head">
+      <span class="eyebrow">02</span>
+      <h2>Music &amp; Videos</h2>
+    </div>
+    <div class="grid">
+      <a class="glass-card" href="#" target="_blank" rel="noopener">
+        <div class="gc-corner tl"></div><div class="gc-corner tr"></div><div class="gc-corner bl"></div><div class="gc-corner br"></div>
+        <div class="gc-thumb">▶ Watch</div>
+        <div><div class="gc-title">Latest Video</div><div class="gc-meta">YouTube ↗</div></div>
+      </a>
+      <a class="glass-card" href="#" target="_blank" rel="noopener">
+        <div class="gc-corner tl"></div><div class="gc-corner tr"></div><div class="gc-corner bl"></div><div class="gc-corner br"></div>
+        <div class="gc-thumb">♪ Stream</div>
+        <div><div class="gc-title">Latest Album</div><div class="gc-meta">Spotify ↗</div></div>
+      </a>
+      <a class="glass-card" href="#" target="_blank" rel="noopener">
+        <div class="gc-corner tl"></div><div class="gc-corner tr"></div><div class="gc-corner bl"></div><div class="gc-corner br"></div>
+        <div class="gc-thumb">♪ Stream</div>
+        <div><div class="gc-title">Latest Album</div><div class="gc-meta">Apple Music ↗</div></div>
+      </a>
+      <a class="glass-card" href="#" target="_blank" rel="noopener">
+        <div class="gc-corner tl"></div><div class="gc-corner tr"></div><div class="gc-corner bl"></div><div class="gc-corner br"></div>
+        <div class="gc-thumb">▶ Watch</div>
+        <div><div class="gc-title">Video Archive</div><div class="gc-meta">YouTube ↗</div></div>
+      </a>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="section-head">
+      <span class="eyebrow">03</span>
+      <h2>Merch &amp; Vinyl</h2>
+    </div>
+    <div class="grid" id="shop-grid"></div>
+  </section>
+
+  <section id="connect">
+    <div class="section-head">
+      <span class="eyebrow">04</span>
+      <h2>Connect</h2>
+    </div>
+    <div class="channel-row">
+      <a class="channel" href="#" target="_blank" rel="noopener">Instagram</a>
+      <a class="channel" href="#" target="_blank" rel="noopener">TikTok</a>
+      <a class="channel" href="#" target="_blank" rel="noopener">YouTube</a>
+      <a class="channel" href="#" target="_blank" rel="noopener">Spotify</a>
+      <a class="channel" href="#" target="_blank" rel="noopener">Apple Music</a>
+      <a class="channel" href="#" target="_blank" rel="noopener">X / Twitter</a>
+      <a class="channel" href="#" target="_blank" rel="noopener">Bandcamp</a>
+      <a class="channel" href="#" target="_blank" rel="noopener">Newsletter</a>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> JADU HEART — end of transmission</footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------------------------------------------------------
+     TOUR DATES — edit this array with real shows.
+  --------------------------------------------------------- */
+  const tourDates = [
+    { date: "AUG 14", city: "London, UK", venue: "The Garage", link: "#" },
+    { date: "AUG 22", city: "Berlin, DE", venue: "Cassiopeia", link: "#" },
+    { date: "SEP 03", city: "Los Angeles, US", venue: "The Echo", link: "#" },
+    { date: "SEP 10", city: "New York, US", venue: "Baby's All Right", link: "#" },
+    { date: "MAR 02", city: "Tokyo, JP", venue: "WWW", link: "#", past: true },
+    { date: "FEB 18", city: "Paris, FR", venue: "Point Ephémère", link: "#", past: true },
+  ];
+
+  function renderTour(){
+    document.getElementById('tour-list').innerHTML = tourDates.map(d => `
+      <div class="tour-row ${d.past ? 'past' : ''}">
+        <div class="tour-date">${d.date}</div>
+        <div class="tour-city">${d.city}</div>
+        <div class="tour-venue">${d.venue}</div>
+        <a class="tour-link" href="${d.link}" target="_blank" rel="noopener">${d.past ? 'Past show' : 'Tickets'}</a>
+      </div>`).join('');
+  }
+  renderTour();
+
+  /* ---------------------------------------------------------
+     MERCH / VINYL — edit this array with real products.
+  --------------------------------------------------------- */
+  const products = [
+    { title: "Debut LP — Vinyl", price: "$32", tag: "Vinyl" },
+    { title: "Tour Tee", price: "$28", tag: "Apparel" },
+    { title: "Cassette — B-Sides", price: "$14", tag: "Tape" },
+    { title: "Enamel Pin Set", price: "$16", tag: "Accessory" },
+  ];
+
+  function renderShop(){
+    document.getElementById('shop-grid').innerHTML = products.map(p => `
+      <a class="glass-card" href="#" target="_blank" rel="noopener">
+        <div class="gc-corner tl"></div><div class="gc-corner tr"></div><div class="gc-corner bl"></div><div class="gc-corner br"></div>
+        <div class="gc-thumb">${p.tag}</div>
+        <div><div class="gc-title">${p.title}</div><div class="gc-meta">${p.price}</div></div>
+      </a>`).join('');
+  }
+  renderShop();
+
+  /* ---------------------------------------------------------
+     REC TIMECODE — ticks up since page load
+  --------------------------------------------------------- */
+  const startTime = Date.now();
+  function updateTimecode(){
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const m = String(Math.floor(elapsed / 60)).padStart(2,'0');
+    const s = String(elapsed % 60).padStart(2,'0');
+    const el = document.getElementById('timecode');
+    if (el) el.textContent = `${m}:${s}`;
+  }
+  setInterval(updateTimecode, 1000);
+
+  /* ---------------------------------------------------------
+     OSD MENU — click, keyboard (↑↓ + Enter), and scroll sync
+  --------------------------------------------------------- */
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const navItems = [...document.querySelectorAll('.osd-item')];
+  let activeIndex = 0;
+
+  function setActive(i){
+    navItems.forEach(n => n.classList.remove('active'));
+    navItems[i].classList.add('active');
+    activeIndex = i;
+  }
+
+  navItems.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      setActive(i);
+      const target = document.querySelector(item.dataset.target);
+      if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const tag = document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+    if (e.key === 'ArrowDown'){
+      e.preventDefault();
+      setActive((activeIndex + 1) % navItems.length);
+    } else if (e.key === 'ArrowUp'){
+      e.preventDefault();
+      setActive((activeIndex - 1 + navItems.length) % navItems.length);
+    } else if (e.key === 'Enter'){
+      navItems[activeIndex].click();
+    }
+  });
+
+  // sync highlighted menu item to whichever section is in view
+  const sections = navItems.map(item => document.querySelector(item.dataset.target)).filter(Boolean);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const idx = sections.indexOf(entry.target);
+        if (idx !== -1) setActive(idx);
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+  sections.forEach(s => observer.observe(s));
+
+  const title = document.querySelector(".band-name");
+  const hero = document.querySelector(".hero");
+  window.addEventListener("scroll",()=>{
+
+    let progress = window.scrollY / window.innerHeight;
+
+     title.style.opacity = 1 - progress;
+
+     title.style.filter = `blur(${progress*20}px)`;
+
+     title.style.transform = `translateY(${progress*120}px) scale(${1-progress*.2})`;
+  });
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+
+  camera.position.z=2;
+
+  const renderer=new THREE.WebGLRenderer({
+      alpha:true,
+      antialias:true
+  });
+
+  renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+  );
+
+  renderer.domElement.style.position="fixed";
+  renderer.domElement.style.top="0";
+  renderer.domElement.style.left="0";
+  renderer.domElement.style.zIndex="0";
+
+  document.body.appendChild(renderer.domElement);
+
+  const geometry = new THREE.PlaneGeometry(5,5,100,100);
+
+  const material = new THREE.ShaderMaterial({
+      transparent:true,
+      uniforms:{
+          time:{value:0}
+      },
+      vertexShader:`
+      varying vec2 vUv;
+      void main(){
+          vUv=uv;
+          gl_Position =projectionMatrix * modelViewMatrix * vec4(position,1.0);
+      }
+      `,
+
+      fragmentShader:`
+      uniform float time;
+      varying vec2 vUv;
+      void main(){
+          float wave = sin(vUv.x*8.0+time)*0.05;
+
+          vec3 color = vec3(0.0,0.8,0.45);
+
+          float glow = 0.5+0.5*sin(time+vUv.y*5);
+
+          gl_FragColor = vec4(color*glow, 0.25);
+      }
+      `
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+
+  scene.add(mesh);
+
+  function animate(){
+      requestAnimationFrame(animate);
+      material.uniforms.time.value += .01;
+
+      renderer.render(
+          scene,
+          camera
+      );
+  }
+
+  animate();
+
+  window.addEventListener("resize", ()=>{
+      camera.aspect =
+      window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(
+          window.innerWidth,
+          window.innerHeight
+      );
+  });
+
+</script>
+
+</body>
+</html>

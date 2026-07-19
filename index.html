@@ -1,199 +1,1464 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALEX RIVERA :: MULTIMEDIA_ARTIST</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Piper Falcon — Interdisciplinary Media Artist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Sora:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+        --ink:#130d0d;
+        --panel:#1d1113;
+        --cream:#f5ece4;
+        --orange:#ff8a52;
+        --wine:#6b2334;
+        --serif:Fraunces,Georgia,serif;
+        --sans:Sora,Arial,sans-serif
+    }
+    *{
+        box-sizing:border-box;
+    }
+    body{
+        margin:0;
+        background:var(--ink);
+        color:var(--cream);
+        font-family:var(--sans);
+        font-weight:300;
+        min-height:100svh;
+        overflow:hidden;
+    }
+    .grain{
+        position:fixed;
+        inset:0;
+        z-index:20;
+        pointer-events:none;
+        opacity:.05;
+        background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
+    }
+    .cursor{
+        position:fixed;
+        width:44px;
+        height:44px;
+        border-radius:50%;
+        background:var(--orange);
+        filter:blur(18px);
+        opacity:.23;
+        pointer-events:none;
+        z-index:30;
+        transform:translate(-50%,-50%);
+        transition:width .6s,height .6s,opacity .6s;
+    }
+    .cursor.big{
+        width:120px;
+        height:120px;
+        opacity:.38;
+    }
+    .blobs{
+        position:fixed;
+        inset:0;
+        overflow:hidden;
+        z-index:-1;
+    }
+    .blob{
+        position:absolute;
+        border-radius:50%;
+        filter:blur(80px);
+        opacity:.52;
+        mix-blend-mode:screen;
+    }
+    .blob.a{
+        width:50vw;
+        height:50vw;
+        background:#cf5837;
+        left:-10vw;
+        top:-16vw;
+        animation:d1 40s ease-in-out infinite alternate;
+    }
+    .blob.b{
+        width:46vw;
+        height:54vw;
+        background:var(--wine);
+        right:-15vw;
+        bottom:-20vw;
+        animation:d2 53s ease-in-out infinite alternate;
+    }
+    .blob.c{
+        width:28vw;
+        height:28vw;
+        background:#9e3a31;
+        left:43%;top:34%;
+        animation:d3 48s ease-in-out infinite alternate;
+    }
+    @keyframes d1{
+        to{
+            transform:translate(25vw,24vh);
+        }}
+    @keyframes d2{
+        to{
+            transform:translate(-26vw,-22vh);
+        }}
+    @keyframes d3{
+        to{
+            transform:translate(-14vw,18vh) scale(1.35);
+        }}
+    .shell{
+        height:100svh;
+        min-height:620px;
+        padding:24px clamp(20px,4vw,58px);
+        display:grid;
+        grid-template-rows:auto 1fr auto;
+    }
+    .top{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        z-index:2;
+    }
+    .mark{
+        font-size:9px;
+        line-height:1.2;
+        letter-spacing:.15em;
+        text-transform:uppercase;
+    }
+    .menu{
+        display:flex;
+        gap:18px;
+    }
+    .menu button,.close{
+        appearance:none;
+        border:0;
+        background:none;
+        color:var(--cream);
+        font:9px var(--sans);
+        letter-spacing:.15em;
+        text-transform:uppercase;
+        cursor:pointer;
+        padding:6px 0;
+    }
+    .menu button:hover,.menu button.active{
+        color:var(--orange);
+    }
+    .stage{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        gap:2.5vw;
+        max-width:1400px;
+        width:100%;
+        margin:auto;
+    }
+
+    .title{
+        width:100%;
+    }
+
+    .title h1{
+        font:400 clamp(3rem,7vw,7rem)/.85 var(--serif);
+        letter-spacing:-.07em;
+        margin:0;
+    }
+    .title p{
+        font-size:10px;
+        letter-spacing:.14em;
+        line-height:1.8;
+        text-transform:uppercase;
+        margin:1.4rem 0 0;
+    }
+    .hint{
+        color:var(--orange);
+        font:italic 16px var(--serif);
+        margin-top:.8rem;
+        transform:none;
+        display:inline-block;
+    }
+    .work-grid{
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
+        gap:12px;
+        align-self:center;
+        width:100%;
+    }
+    .project{
+        height:clamp(180px,24vw,300px);
+        padding:16px;
+        position:relative;
+        text-align:left;
+        border:1px solid rgba(245,236,228,.18);
+        color:var(--cream);
+        cursor:pointer;
+        overflow:hidden;
+        background:linear-gradient(135deg,#5d2630,#1e1215);
+        transition:transform 1.6s cubic-bezier(.2,.8,.2,1),border-color .4s;
+    }
+
+    .project:before{
+        content:"";
+        position:absolute;
+        width:74%;
+        aspect-ratio:1;
+        border:1px solid rgba(245,236,228,.5);
+        left:18%;
+        top:16%;
+        transform:rotate(-20deg);
+        transition:transform .8s;z-index:1;
+    }
+    .project img{
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        opacity:.8;
+        transition:transform .8s;
+    }
+    .project.image-project:after{
+        content:"";
+        position:absolute;
+        inset:0;
+        background:linear-gradient(0deg,rgba(18,12,12,.82),rgba(18,12,12,.03) 65%);
+    }
+    .project:hover{
+        transform:translateY(-9px);
+        border-color:var(--orange);
+    }
+    .project:hover:before{
+        transform:rotate(15deg) scale(1.2);
+    }
+    .project:hover img{
+        transform:scale(1.08);
+    }
+    .project small{
+        position:absolute;
+        top:14px;
+        left:16px;
+        font-size:9px;
+        letter-spacing:.14em;
+        text-transform:uppercase;
+        z-index:2;
+    }
+    .project strong{
+        position:absolute;
+        bottom:14px;
+        left:16px;
+        font:400 clamp(1.15rem,1.8vw,1.8rem)/.95 var(--serif);
+        letter-spacing:-.05em;
+        z-index:2;
+    }
+    .bottom{
+        display:flex;
+        justify-content:space-between;
+        align-items:end;
+        font-size:9px;
+        letter-spacing:.14em;
+        text-transform:uppercase;
+        color:rgba(245,236,228,.62);
+    }
+    .pulse{
+        color:var(--orange);
+        animation:pulse 2.5s ease infinite;
+    }
+    @keyframes pulse{
+        50%{opacity:.3};
+    }
+    .overlay{
+        position:fixed;
+        inset:0;
+        background:rgba(12,7,8,.76);
+        backdrop-filter:blur(14px);
+        z-index:40;
+        display:grid;
+        place-items:center;
+        padding:clamp(16px,4vw,50px);
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .5s;
+    }
+    .overlay.open{
+        opacity:1;
+        pointer-events:auto;
+    }
+    .modal{
+        width:min(1120px,100%);
+        height:min(760px,88svh);
+        background:#211315;
+        border:1px solid rgba(245,236,228,.2);
+        position:relative;
+        display:grid;
+        grid-template-columns:1fr;
+        overflow:auto;
+        transform:translateY(20px);
+        transition:transform .6s;
+    }
+    .overlay.open .modal{
+        transform:none;
+    }
+    .close{
+        position:absolute;
+        right:22px;
+        top:18px;
+        z-index:4;
+    }
+    .modal-art{
+        height:clamp(390px,58vh,620px);
+        min-height:390px;
+        background:linear-gradient(145deg,#a54633,#2b151d);
+        position:relative;
+        overflow:hidden;
+    }
+    .modal-art:before{
+        content:"";
+        position:absolute;
+        width:66%;
+        height:66%;
+        border:1px solid rgba(245,236,228,.55);
+        left:16%;
+        top:15%;
+        transform:rotate(-17deg);
+    }
+    .modal-art:after{
+        content:"process / sketch / render";
+        position:absolute;
+        left:10%;
+        bottom:9%;
+        color:var(--orange);
+        font:italic 18px var(--serif);
+        transform:none;
+    }
+    .modal-art.has-image:before{
+        display:none;
+    }
+    .modal-art.has-image:after{
+        content:"";
+        display:block;
+        inset:0;
+        left:0;
+        bottom:auto;
+        transform:none;
+        background:linear-gradient(135deg,rgba(13,8,10,.53),rgba(19,13,13,.14) 55%,rgba(255,138,82,.16)),url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.95' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+        mix-blend-mode:soft-light;
+        pointer-events:none;
+    }
+    .modal-art img,.modal-art video{
+        width:100%;
+        height:100%;
+        min-height:100%;
+        object-fit:cover;
+        display:block;
+    }
+    .modal-art.has-image img{
+        object-fit:cover;
+        padding:0;
+        background:#151013;
+        filter:saturate(.72) contrast(.88) brightness(.76);
+        transform:scale(1.025);
+    }
+    .modal-art.has-video video{
+        filter:saturate(.78) contrast(.9) brightness(.78);
+    }
+    .modal-copy{
+        padding:clamp(40px,7vw,92px) clamp(25px,9vw,150px);
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+    }
+    .modal-copy small{
+        color:var(--orange);
+        font-size:9px;
+        letter-spacing:.15em;
+        text-transform:uppercase;
+    }
+    .modal-copy h2{
+        font:400 clamp(3.5rem,6vw,6rem)/.85 var(--serif);
+        letter-spacing:-.08em;
+        margin:1rem 0 1.8rem;
+    }
+    .modal-copy p{
+        font-size:13px;
+        line-height:1.9;
+        color:rgba(245,236,228,.72);
+        max-width:680px;
+    }
+    .modal-copy button{
+        align-self:flex-start;
+        margin-top:1.5rem;
+        color:var(--orange);
+        background:none;
+        border:0;
+        border-bottom:1px solid var(--orange);
+        padding:0 0 .5rem;
+        font:10px var(--sans);
+        letter-spacing:.14em;
+        text-transform:uppercase;
+        cursor:pointer;
+    }
+    .case-study{
+        display:none;
+        margin-top:2.5rem;
+    }
+
+    .case-study.show{
+        display:block;
+    }
+  
+    }
+    .case-study h3{
+        font:400 1.4rem var(--serif);
+        margin:2.4rem 0 .6rem;
+        color:var(--cream);
+    }
+    .case-study h4{
+        color:var(--orange);
+        font-size:9px;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        margin:3.4rem 0 .7rem;
+    }
+    .case-study p{
+        font-size:12px;
+        line-height:1.8;
+    }
+    .case-gallery,.case-gallery.environment{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:1.25rem;
+        margin-top:1.25rem;
+    }
+    .case-gallery:not(.creative-gallery) img,.case-gallery:not(.creative-gallery) video{
+        width:100%;
+        aspect-ratio:1.45;
+        object-fit:cover;
+        filter:saturate(.85);
+        transition:filter .4s;
+    }
+    .case-gallery img:hover{
+        filter:saturate(1.15);
+    }
+    .asset-label{
+        display:block;
+        color:rgba(245,236,228,.55);
+        font-size:9px;
+        letter-spacing:.1em;
+        text-transform:uppercase;
+        margin-top:7px;
+    }
+    .play{
+        position:fixed;
+        inset:0;
+        background:var(--panel);
+        z-index:35;
+        padding:clamp(20px,4vw,58px);
+        transform:translateY(100%);
+        transition:transform .75s cubic-bezier(.75,0,.2,1);
+    }
+    .play.open{
+        transform:none;
+    }
+    .playhead{
+        display:flex;
+        justify-content:space-between;
+        align-items:start;
+    }
+    .play h2{
+        font:400 clamp(3.6rem,8vw,8rem)/.85 var(--serif);
+        letter-spacing:-.08em;
+        margin:2rem 0;
+    }
+    .canvas{
+        height:min(54vh,520px);
+        border:1px solid rgba(245,236,228,.18);
+        position:relative;
+        overflow:hidden;
+        cursor:crosshair;
+        background:#33161c;
+    }
+    .trail{
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        pointer-events:none;
+        mix-blend-mode:screen;
+    }
+    .orb{
+        width:250px;
+        height:250px;
+        border-radius:50%;
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-50%,-50%);
+        background:radial-gradient(circle at 35% 30%,#ffe1bd,#ff8050 25%,#72253e 64%,transparent 67%);
+        filter:blur(2px);
+        transition:transform .16s ease;
+        pointer-events:none;
+    }
+    .canvas p{
+        position:absolute;
+        z-index:2;
+        left:20px;
+        bottom:14px;
+        margin:0;
+        font-size:9px;
+        letter-spacing:.15em;
+        line-height:1.8;
+        text-transform:uppercase;
+        pointer-events:none;
+    }
+    .play .close{
+        position:static;
+    }
+    .aboutcard{
+        position:fixed;
+        inset:0;
+        background:rgba(12,7,8,.8);
+        backdrop-filter:blur(14px);
+        z-index:36;
+        display:grid;place-items:center;
+        padding:20px;
+        opacity:0;
+        pointer-events:none;
+        transition:.45s;
+    }
+    .aboutcard.open{
+        opacity:1;
+        pointer-events:auto;
+    }
+    .aboutinner{
+        max-width:700px;
+        text-align:center;
+    }
+    .aboutinner h2{
+        font:400 clamp(3.5rem,9vw,8rem)/.84 var(--serif);
+        letter-spacing:-.08em;
+        margin:1rem 0 2rem;
+    }
+    .aboutinner p{
+        max-width:500px;
+        margin:0 auto;
+        line-height:1.9;
+        font-size:14px;
+        color:rgba(245,236,228,.72);
+    }
+    .aboutinner .close{
+        position:static;
+        margin-top:3rem;
+        color:var(--orange);
+        border-bottom:1px solid var(--orange);
+    }
+    @media(max-width:680px){
+        body{overflow:auto}
+        .shell{
+            min-height:100svh;
+            height:auto;
+        }
+        .stage{
+            grid-template-columns:1fr;
+            padding:8vh 0 4vh;
+            gap:3rem;
+        }
+        .work-grid{
+            width:100%;
+            display:grid;
+            grid-template-columns:repeat(2, minmax(120px, 1fr));
+            gap:12px;
+            align-self:center;
+            max-height:70vh;
+            overflow-y:auto;
+            padding-right:6px;
+        }
+        .modal{
+            grid-template-columns:1fr;
+            overflow:auto;
+        }
+        .modal-art{
+            min-height:220px;
+        }
+        .modal-copy{
+            min-height:420px;
+        }
+        .menu{
+            gap:10px;
+        }
+        .menu button{
+            font-size:8px;
+        }
+        .bottom{
+            margin-top:1.5rem;
+        }
+    }
+    .case-gallery.creative-gallery{
+        display:block;
+        column-count:2;
+        column-gap:10px;
+        margin-top:1.5rem;
+    }
+    .case-gallery.creative-gallery figure {
+        display:inline-block;
+        width:100%;
+        margin: 0 0 10px;
+        break-inside:avoid;
+    }
+    .case-gallery.creative-gallery img{
+        width:100%;
+        height:auto;
+        aspect-ratio:auto;
+        object-fit:contain;
+        display:block;
+        filter:saturate(.85);
+        transition:transform .4s ease, filter .4s ease;
+    }
+    .case-gallery.creative-gallery img:hover{
+        transform:translateY(-5px);
+        filter:saturate(1.15);
+    }
+    .case-gallery.creative-gallery figcaption{
+        margin-top:7px;
+    }
+
+    .coverflow{
+        position:relative;
+        width:100%;
+        height:100%;
+        transform-style:preserve-3d;
+    }
+
+    .coverflow::-webkit-scrollbar{
+        display:none;
+    }
+
+    .cover{
+        position:absolute;
+        top:50%;
+        left:50%;
+        max-width:420px;
+        max-height:420px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        transform-style:preserve-3d;
+        transform-origin: center center;
+        transition:transform 2.5s cubic-bezier(.25,.85,.25,1), opacity:.9s, filter .9s;
+        cursor:pointer;
+    }
+
+    .cover.active{
+        transform: rotateY(0deg) scale(1.15);
+        opacity:1;
+        filter:none;
+        z-index:20;
+    }
+
+    .cover.active + .cover{
+        transform: rotateY(-35deg) scale(.82);
+    }
+
+    .cover:first-child{
+        margin-left:0;
+    }
+
+    .cover img, .cover video{
+        max-width:420px;
+        max-height:420px;
+        object-fit:cover;
+        width:auto;
+        height:auto;
+        box-shadow:0 20px 40px rgba(0,0,0,.6);
+        -webkit-box-reflect:
+            below 8px
+            linear-gradient(transparent,rgba(255,255,255,.22)
+        );
+    }
+
+    .coverflow-stage{
+        background:radial-gradient(circle at center, rgba(70,70,70,.12) 0%, rgba(15,15,15,.9) 45%, #000 100%);
+        height:600px;
+        overflow:hidden;
+        position:relative;
+        perspective:3000px;
+        perspective-origin:center 35%;
+    }
+
+    .cover span{
+        display:block;
+        margin-top:14px;
+        text-align:center;
+        font-size:.8rem;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+    }
+
+    .cover-btn{
+        position:absolute;
+        top:50%;
+        transform:translateY(-50%);
+        width:44px;
+        height:44px;
+        border:none;
+        border-radius:50%;
+        background:rgba(255,255,255,.08);
+        color:white;
+        cursor:pointer;
+        z-index:100;
+    }
+
+.cover-btn.prev{
+    left:20px;
+}
+
+.cover-btn.next{
+    right:20px;
+}
+
+.website-preview{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.25rem;
+    margin:3rem 0;
+}
+
+.website-preview img{
+    width:100%;
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.website-link{
+    color:#ff7a3d;
+    text-decoration:none;
+    font-family:"JetBrains Mono", monospace;
+    text-transform:uppercase;
+    letter-spacing:.15em;
+    font-size:.8rem;
+    transition:.25s ease;
+}
+
+.website-link:hover{
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+  </style>
 </head>
 <body>
-
-  <!-- ================= BOOT SEQUENCE ================= -->
-  <div id="boot-screen">
-    <div class="boot-inner">
-      <div class="boot-line" data-text="SYS::PORTFOLIO_OS v3.01 — INITIALIZING"></div>
-      <div class="boot-line" data-text="&gt; MOUNTING SHADER_ENGINE..................... OK"></div>
-      <div class="boot-line" data-text="&gt; LOADING WEBGL_CONTEXT......................  OK"></div>
-      <div class="boot-line" data-text="&gt; CALIBRATING DITHER_GRID....................  OK"></div>
-      <div class="boot-line" data-text="&gt; ESTABLISHING NODE :: 4.7110°N 74.0721°W....  OK"></div>
-      <div class="boot-line" data-text="&gt; USER_PROFILE LOADED :: role='multimedia_artist'"></div>
-      <div class="boot-progress"><div class="boot-progress-fill"></div></div>
-      <button id="skip-boot">[ SKIP ]</button>
-    </div>
+  <div class="grain"></div>
+  <div class="cursor"></div>
+  <div class="blobs">
+    <i class="blob a"></i>
+    <i class="blob b"></i>
+    <i class="blob c"></i>
   </div>
 
-  <!-- ================= BACKGROUND ================= -->
-  <canvas id="terrain"></canvas>
-  <div class="scanlines"></div>
-  <div class="vignette"></div>
-  <div class="cursor-dot"></div>
-  <div class="cursor-ring"></div>
+  <main class="shell">
 
-  <!-- ================= HUD TOP BAR ================= -->
-  <header class="hud-bar">
-    <div class="hud-left">
-      <span class="hud-dot"></span>
-      <span id="clock">00:00:00</span>
-      <span class="hud-sep">//</span>
-      <span>NODE_ACTIVE</span>
-    </div>
-    <div class="hud-right">
-      <span>SIG:<b id="sig">83</b>%</span>
-      <span class="hud-sep">//</span>
-      <span>OUTPUT::SCREEN</span>
-    </div>
-  </header>
+    <header class="top">
+        <span class="mark">Piper Falcon<br>Interactive media
+            </span>
+        <nav class="menu">
+            <button data-open="about">About</button>
+            <button data-open="play">Playground</button>
+            <button data-open="contact">Contact</button>
+        </nav>
+    </header>
 
-  <!-- ================= NAV ================= -->
-  <nav class="site-nav">
-    <a href="#hero" class="logo">P_FALCON<span class="blink">_</span></a>
-    <div class="nav-links">
-      <a href="#about" data-hover>[01] ABOUT</a>
-      <a href="#works" data-hover>[02] WORKS</a>
-      <a href="#contact" data-hover>[03] CONTACT</a>
-    </div>
-    <button class="nav-burger" id="nav-burger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <main>
-    <!-- ================= HERO ================= -->
-    <section id="hero">
-      <div class="hero-tag">// USER_PROFILE :: INTERDISCIPLINARY_MEDIA_ARTIST</div>
-      <h1 class="glitch-heading" data-text="PIPER FALCON">PIPER FALCON</h1>
-      <p class="hero-sub">I create immersive environments that merge research, real-time systems, and spatial storytelling. My practice<br>
-        bridges 3D modeling, generative visuals, and cultural research to explore ritual, emotion, and embodied experience.</p>
-      <p class="hero-sub"> <br>
-        3D · Real-time visuals · Interactive installations</p>
-      <div class="hero-cta-row">
-        <a href="#works" class="btn-primary" data-hover>VIEW_WORKS →</a>
-        <a href="#contact" class="btn-ghost" data-hover>GET IN TOUCH</a>
-      </div>
-      <div class="scroll-hint">
-        <span>SCROLL</span>
-        <div class="scroll-line"></div>
-      </div>
+    <section class="stage">
+        <div class="title">
+            <h1>PIPER FALCON</h1>
+            <p>Interactive media · 3D visualization · Graphic design</p>
+            <span class="hint">choose an experiment ↗</span>
+        </div>
+        <div class="work-grid" aria-label="Projects">
+            <button class="project image-project" data-project="Verdant Echoes">
+                <img src="images/verdant-exterior.png" alt="Verdant Echoes virtual greenhouse exterior">
+                <small>01 / VR environment</small>
+                <strong>Verdant<br>Echoes</strong>
+            </button>
+            <button class="project image-project" data-project="my seeking gut">
+                <img src="images/seeking-gut-nebula.png" alt="Generative nebula visual for my seeking gut">
+                <small>02 / performance / XR</small>
+                <strong>my seeking<br>gut</strong>
+            </button>
+            <button class="project image-project" data-project="Breath Between Spaces">
+                <img src="images/breath-environment-overview.png" alt="Breath Between Spaces virtual garden">
+                <small>03 / bio-responsive VR</small>
+                <strong>Breath Between<br>Spaces</strong>
+            </button>
+            <button class="project" data-project="Creative Direction">
+                <img src="images/creative-hero.jpg" alt="Creative Direction">
+                <small>04 / Graphic Design and Kinetic Design</small>
+                <strong>Creative<br>Direction</strong>
+            </button>
+            <button class="project" data-project="NeoGen">
+                <img src="images/neoGen-cover.jpg" alt="NeoGen Installation Proposal">
+                <small>05 / Interactive Media Installation</small>
+                <strong>NeoGen</strong>
+            </button>
+        </div>
     </section>
 
-    <!-- ================= ABOUT ================= -->
-    <section id="about">
-      <div class="section-label">// LOADING :: SECTION_01</div>
-      <h2 class="section-title">ABOUT_ME</h2>
+    <footer class="bottom">
+        <span class="pulse">● live studio</span>
+        <span>Click, move, play</span>
+        <span>© 2026</span>
+    </footer>
 
-      <div class="terminal-card about-grid">
-        <div class="terminal-card-head">
-          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-          <span class="terminal-card-title">profile.init</span>
-        </div>
-        <div class="terminal-card-body">
-          <pre class="init-block">[init] user.id     = 'Alex Rivera'
-[init] role        = 'Multimedia Artist / Creative Coder'
-[init] origin      = 'Bogotá, Colombia'
-[init] tools       = ['TouchDesigner', 'Blender', 'Three.js', 'Unreal Engine', 'GLSL']
-[init] focus       = 'Real-time visuals, 3D, generative & interactive installation art'</pre>
-
-          <p class="about-copy">
-            I'm a multimedia artist working across 3D modeling, real-time graphics and
-            interactive installation. My practice lives at the intersection of code and
-            sculpture — building generative systems that respond to light, sound and
-            the people standing in front of them. Recent work has shown in public
-            installations, gallery projections and branded digital experiences.
-          </p>
-
-          <div class="tag-row">
-            <span class="tag">3D_MODELING</span>
-            <span class="tag">GENERATIVE_ART</span>
-            <span class="tag">REAL-TIME_RENDER</span>
-            <span class="tag">PROJECTION_MAPPING</span>
-            <span class="tag">CREATIVE_CODE</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat"><span class="stat-num" data-count="47">0</span><span class="stat-label">PROJECTS_SHIPPED</span></div>
-        <div class="stat"><span class="stat-num" data-count="12">0</span><span class="stat-label">INSTALLATIONS</span></div>
-        <div class="stat"><span class="stat-num" data-count="6">0</span><span class="stat-label">YEARS_ACTIVE</span></div>
-      </div>
-    </section>
-
-    <!-- ================= WORKS ================= -->
-    <section id="works">
-      <div class="section-label">// LOADING :: SECTION_02</div>
-      <h2 class="section-title">WORKS</h2>
-      <p class="section-desc">Selected projects. Hover to preview signal — click to open full case file.</p>
-
-      <div class="works-grid" id="works-grid">
-        <!-- cards injected by script.js -->
-      </div>
-    </section>
-
-    <!-- ================= CONTACT ================= -->
-    <section id="contact">
-      <div class="section-label">// LOADING :: SECTION_03</div>
-      <h2 class="section-title">CONTACT</h2>
-
-      <div class="terminal-card contact-card">
-        <div class="terminal-card-head">
-          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-          <span class="terminal-card-title">contact.sh — bash</span>
-        </div>
-        <div class="terminal-card-body">
-          <form id="contact-form">
-            <label class="term-label">$ set name =</label>
-            <input type="text" name="name" required placeholder="your_name" data-hover>
-
-            <label class="term-label">$ set email =</label>
-            <input type="email" name="email" required placeholder="you@domain.com" data-hover>
-
-            <label class="term-label">$ set message =</label>
-            <textarea name="message" rows="4" required placeholder="type your message..." data-hover></textarea>
-
-            <button type="submit" class="btn-primary" data-hover>./send_message.sh</button>
-            <div id="form-response" class="form-response"></div>
-          </form>
-
-          <div class="social-row">
-            <a href="#" data-hover>INSTAGRAM ↗</a>
-            <a href="#" data-hover>VIMEO ↗</a>
-            <a href="#" data-hover>ARE.NA ↗</a>
-            <a href="mailto:hello@alexrivera.art" data-hover>EMAIL ↗</a>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <footer class="site-footer">
-    <span>© 2026 ALEX_RIVERA</span>
-    <span>BUILT WITH HTML // CSS // JS</span>
-    <span id="footer-clock"></span>
-  </footer>
+  <section class="overlay" id="projectModal">
+    <article class="modal">
+        <button class="close" data-close="projectModal">Close ×
+            </button>
+        <div class="modal-art" id="modalArt"></div>
+        <div class="modal-copy">
+            <small id="projectType">Selected work</small>
+            <h2 id="projectTitle">Verdant<br>Echoes</h2>
+            <p id="projectText">An immersive VR installation exploring the emotional symbolism of plants across American and Korean cultural contexts.</p>
+            <button id="cycle">Next process note ↓</button>
+            <div class="case-study" id="verdantDetail">
+                <h4>01 / Enter the environment</h4>
+                <div class="case-gallery environment">
+                    <figure>
+                        <img src="images/verdant-exterior.png" alt="Exterior view of the Verdant Echoes greenhouse">
+                        <figcaption class="asset-label">Virtual greenhouse exterior</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-greenhouse.png" alt="Inside the Verdant Echoes greenhouse">
+                        <figcaption class="asset-label">Greenhouse interior</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-shelf.png" alt="Decorative shelf integrated in the VR greenhouse">
+                        <figcaption class="asset-label">Environmental prop integration</figcaption>
+                    </figure>
+                </div>
+                <h3>Project overview</h3>
+                <p>Verdant Echoes explores how emotional cues can be communicated through environmental design. I modeled and developed emotion-based plant and decorative assets, translating abstract ideas into form, color, and material within an immersive space.</p>
+                <h3>Concept & intent</h3>
+                <p>Descriptive keywords and visual references guided plant silhouette, surface detail, and palette—making emotional qualities readable as tangible in-world assets.</p>
+                <h4>02 / Research sketches</h4>
+                <p>Early plant research connected reference imagery, emotional descriptors, and form studies. These sketches established the visual language that guided each final model.</p>
+                <div class="case-gallery">
+                    <figure>
+                        <img src="images/verdant-research-sketches-01.png" alt="Early plant emotion research and concept sketches">
+                        <figcaption class="asset-label">Emotion, reference & silhouette studies</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-research-sketches-02.png" alt="Additional plant concept sketches and research">
+                        <figcaption class="asset-label">Plant research continuation</figcaption>
+                    </figure>
+                </div>
+                <h4>03 / Plant & prop development</h4>
+                <p>Each asset was modeled in Maya with clean topology and optimized for real-time VR. Scale, variation, and placement were designed to support mood, spatial rhythm, and visual cohesion inside the greenhouse.</p>
+                <div class="case-gallery">
+                    <figure>
+                        <img src="images/verdant-flowers.png" alt="Flower assets in development">
+                        <figcaption class="asset-label">Plant study</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-planter-box.jpg" alt="Wooden planter box 3D asset">
+                        <figcaption class="asset-label">Planter box</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-wheel-planter.jpg" alt="Wheel planter 3D asset">
+                        <figcaption class="asset-label">Wheel planter</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-poppy.jpg" alt="Poppy 3D plant asset">
+                        <figcaption class="asset-label">Poppy</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-wire-shelf.jpg" alt="Wire shelf 3D prop asset">
+                        <figcaption class="asset-label">Wire shelf</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-lotus.jpg" alt="Lotus 3D plant asset">
+                        <figcaption class="asset-label">Lotus</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/verdant-mugwort.jpg" alt="Mugwort 3D plant asset">
+                        <figcaption class="asset-label">Mugwort</figcaption>
+                    </figure>
+                </div>
+                <h3>Research context</h3>
+                <p>Developed alongside a study of how environmental elements influence emotional perception in immersive VR experiences. Those findings informed asset design decisions throughout the project.</p>
+            </div>
+            <div class="case-study" id="gutDetail">
+                <h4>01 / A ritual in extended reality</h4>
+                <div class="case-gallery environment">
+                    <figure>
+                        <video controls preload="metadata" poster="images/seeking-gut-nebula.png">
+                            <source src="images/seeking-gut-performance-recording.mp4" type="video/mp4">
+                        </video>
+                        <figcaption class="asset-label">Performance study / in development</figcaption>
+                    </figure>
+                </div>
+                <h3>Project overview</h3>
+                <p>
+                    <em>my seeking gut</em> is an immersive cross-cultural performance exploring healing and transformation through Ssitkim-gut, a Korean spiritual cleansing ritual. AR/VR immersion and audience participation translate ritual into an interactive experience.</p>
+                    <h3>Collaboration</h3>
+                    <p>Directed by Moss in collaboration with Semi Ryu, Ph.D., whose work explores Korean healing rituals, the virtual body, and extended reality; and Soo Jung Chae, a Pansori singer, Shamanic practitioner, and professor of Korean Traditional Arts.</p>
+                    <h4>02 / Generative atmosphere</h4>
+                    <div class="case-gallery">
+                        <figure>
+                            <img src="images/seeking-gut-touchdesigner.png" alt="TouchDesigner network for a generative nebula">
+                            <figcaption class="asset-label">Generative nebula system</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="images/seeking-gut-nebula.png" alt="Generative red and pink nebula visual">
+                            <figcaption class="asset-label">Visualizing cleansing & transformation</figcaption>
+                        </figure>
+                    </div>
+                    <h4>03 / Audience participation</h4>
+                    <div class="case-gallery environment">
+                        <figure>
+                            <img src="images/seeking-gut-xr-participation.png" alt="Participant wearing a VR headset and engaging with the performance">
+                            <figcaption class="asset-label">XR immersion & participatory ritual</figcaption>
+                        </figure>
+                    </div>
+                    <h3>In development</h3>
+                    <p>Korean and US premieres are projected for fall 2026 and spring 2027. Center for the Arts at Wesleyan University will present a seminar on the work’s philosophies of experience, September 24–27, 2026.</p>
+                </div>
+                <div class="case-study" id="breathDetail">
+                    <h4>01 / Enter the environment</h4>
+                    <div class="case-gallery environment">
+                        <figure>
+                            <video controls preload="metadata" poster="images/breath-unity-terrain.png">
+                                <source src="images/breath-walkthrough-02.mp4" type="video/mp4">
+                            </video>
+                            <figcaption class="asset-label">VR environment walkthrough</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="images/breath-environment-overview.png" alt="Breath Environment Overview">
+                            <figcaption class="asset-label">Zen island overview</figcaption>
+                        </figure>
+                    </div>
+                    <h3>Project overview</h3>
+                    <p>
+                        <em>Breath Between Spaces</em>is a bio-responsive virutal reality experience designed to help medical students and healthcare professionals reconnect with their bodies through breath, stillness, and immersive environmental interaction. Instead of rewarding constant movement, the experience encourages users to slow down, breathe, and simply be present within a peaceful Zen-inspired landscape.
+                    </p>
+                    <h3>Concept &amp; intent</h3>
+                    <p>The project explores how virtual environments can encourage mindfulness through active presence rather than passive relaxation. Breathing becomes the primary form of interaction, creating a visual bio-feedback loop where the world gently responds to the user's physiological state.</p>
+                    <h4>02 / Environment Development</h4>
+                    <div class="case-gallery">
+                        <figure>
+                        <img src="images/breath-waterfall-vfx.png" alt="Breath Environment 1">
+                        <figcaption class="asset-label">Environment composition</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/breath-maya-garden.png" alt="Sand Environment">
+                        <figcaption class="asset-label">Landscape development</figcaption>
+                    </figure>
+                </div>
+                <h3>My role</h3>
+                <p>I led concept development and collaborated to create the immersive environment through 3D modeling, Unity scene assembly, environmental composition, and real-time visual effects.  My work focused on building a calming atmosphere that supported mindful exploration while maintaining optimized VR performance.</p>
+                <h4>03 / Visual effects &amp; shaders</h4>
+                <div class="case-gallery">
+                    <figure>
+                        <img src="images/breath-water-shader.png" alt="Waterfall Shader GRaph">
+                        <figcaption class="asset-label">Waterfall shader graph</figcaption>
+                    </figure>
+                    <figure>
+                        <video controls preload="metadata" poster="images/breath-waterfall.png">
+                            <source src="images/breath-vfx-study.mp4" type="video/mp4">
+                        </video>
+                        <figcaption class="asset-label">VFX Prototype Walkthrough</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/breath-leaf-particles.png" alt="Falling leaves particle system">
+                        <figcaption class="asset-label">Falling leaves particle system</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/breath-maya-bird.png" alt="3D Modeled Bird Rig">
+                        <figcaption class="asset-label">3D Modeled Bird with Rig System</figcaption>
+                    </figure>
+                </div>
+                <h3>Technical implementation</h3>
+                <p>The environment was developed in Unity using Shader Graph, particle systems, and real-time visual effects. Flowing water, animated waterfalls, drifting leaves, and subtle environmental movement were designed to reinforce relaxation without distracting from the breathing experience.</p>
+                <h4>04 / Bio-Responsive interaction</h4>
+                <p>The world responds directly to the user's breathing, encouraging slower, more intentional breath patterns. Stillness itself becomes an interaction mechanic-certain experiences only become available once the participant pauses movement and remains present, shifting progression away from speed and toward mindfulness.</p>
+            </div>
+            <div class="case-study" id="creativeDetail">
+                <h4>01 / Creative Direction</h4>
+                <div class="case-gallery environment">
+                    <figure>
+                        <img src="images/creative-hero.jpg" alt="Creative Direction Overview">
+                        <figcaption class="asset-label">Visual identities for musicians</figcaption>
+                    </figure>
+                </div>
+                <h3>Project Overview</h3>
+                <p>Creative Direction is an ongoing collection of speculative branding projects developed for musicians and bands. Each identity explores how typography, imagery, merchandise, motion, and promotional materials can translate an artist's sound into a cohesive visual language. Rather than redesigning existing branding, these projects imagine new creative campaigns that extend the atmosphere of the music into physical and digital experiences.</p>
+                <h4>02 / Jadu Heart</h4>
+                <p>Rather than reflecting Jadu Heart's existing branding, this project explores an alternate visual identity that pushes further into the band's experimental electronic sound. Influenced by retro-futurism, CRT technology, digital decay, and surreal dreamscapes, the identity uses fragmented imagery, layered textures, and cinematic motion to create a world that feels immersive, mysterious, and emotionally charged. The resulting system spans album artwork, tour posters, merchandise, and animated visuals, imagining how the band's visual language could evolve alongside its more electronic and atmospheric music.</p>
+                
+                <div class="coverflow-stage">
+                    <button class="cover-btn prev"><</button>
+                        <div class="coverflow">
+                            <div class="cover active">
+                                <img src="images/jadu-poster-01.jpg">
+                            </div>
 
-  <!-- ================= PROJECT MODAL ================= -->
-  <div id="project-modal" class="modal">
-    <div class="modal-backdrop" data-close></div>
-    <div class="modal-panel">
-      <button class="modal-close" data-close>[ X ]</button>
-      <div class="modal-meta">
-        <span id="modal-year"></span>
-        <span class="hud-sep">//</span>
-        <span id="modal-category"></span>
-      </div>
-      <h3 id="modal-title"></h3>
-      <div class="modal-details">
-        <div><span class="term-label">CLIENT::</span><span id="modal-client"></span></div>
-        <div><span class="term-label">TOOL::</span><span id="modal-tool"></span></div>
-        <div><span class="term-label">TYPE::</span><span id="modal-type"></span></div>
-      </div>
-      <p id="modal-desc"></p>
+                            <div class="cover">
+                                <img src="images/jadu-album-01.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <video muted loop playsinline preload="metadata">
+                                    <source src="images/jh-title2.mp4" type="video/mp4">
+                                </video>
+                            </div>
+
+                            <div class="cover">
+                                <img src="images/jadu-merch-tshirt.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <img src="images/jadu-social.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <video muted loop playsinline preload="metadata">
+                                    <source src="images/Jh-Visual1.mp4" type="video/mp4">
+                                </video>
+                            </div>
+
+                            <div class="cover">
+                                <video muted loop playsinline preload="metadata">
+                                    <source src="images/Jh-Visual2.mp4" type="video/mp4">
+                                </video>
+                            </div>
+
+                            <div class="cover">
+                                <img src="images/jadu-album-02.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <img src="images/jadu-poster-02.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <video muted loop playsinline preload="metadata">
+                                    <source src="images/jadu-visual4.mp4">
+                                </video>
+                            </div>
+                        </div>
+
+                        <button class="cover-btn next">></button>
+                </div>
+
+                <h4>Artist Website</h4>
+                <p>To explore how the visual identity could extend beyond print and merchandise, I designed and developed a fully coded promotional website for Jadu Heart. The site combines immersive motion, WebGL backgrounds, and interactive navigation to translate the band's atmosphere into a digital experience.</p>
+                <div class="website-preview">
+                    <img src="images/jadu-website.png" alt="Jadu Heart Landing Page">
+
+                    <a href="jadu.html" class="website-link">
+                        Visit Website ↗
+                    </a>
+                </div>
+
+
+                <h4>03 / The Alan Parsons Project</h4>
+                <p>This speculative campaign reimagines the visual identity of The Alan Parsons Project through contemporary graphic design while preserving the band's progressive rock roots.  Cosmic imagery, geometric layouts, and retro-futuristic typography reference the group's history while creating a modern promotional system for today's audiences.</p>
+                <div class="coverflow-stage">
+                    <button class="cover-btn prev"><</button>
+                        <div class="coverflow">
+                            <div class="cover active">
+                                <img src="images/alan-parsons-poster-01.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <img src="images/alan-parsons-poster-02.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <img src="images/alan-parsons-vinyl.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <img src="images/alan-parsons-tourposter.jpg">
+                            </div>
+
+                            <div class="cover">
+                                <video muted loop playsinline preload="metadata">
+                                    <source src="images/Audio-Prisms.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+
+                        <button class="cover-btn next">></button>
+                </div>
+
+
+                <h4>Artist Website</h4>
+                <p>To explore how the visual identity could extend beyond print and merchandise, I designed and developed a fully coded promotional website for The Alan Parsons Project. The site combines immersive motion, WebGL backgrounds, and interactive navigation to translate the band's atmosphere into a digital experience.</p>
+                <div class="website-preview">
+                    <img src="images/app-website.png" alt="Alan Parsons Landing Page">
+
+                    <a href="alan-parsons-project2.html" class="website-link">
+                        Visit Website ↗
+                    </a>
+                </div>
+
+                <h3>Design approach</h3>
+                <p>Every project begins by studying the artist's music, themes, and visual references before developing moodboards, typography systems, color palettes, and promotional assets. The goal is to create complete visual identities that could exist across album releases, tour campaigns, merchandise, social media, and live experiences.</p>
+            </div>
+
+            <div class="case-study" id="installationDetail">
+                <h4>01 / The Concept</h4>
+                <div class="case-gallery environment">
+                    <figure>
+                        <img src="images/neogen-particle-reference.png" alt="Particle Reference Study">
+                        <figcaption class="asset-label">Particle behavior reference</figcaption>
+                    </figure>
+                </div>
+                <h3>Project overview</h3>
+                <p>
+                    <em>NeoGen</em> is a real-time interactive installation concept developed as a submission for the Seven Stars Music Festival. Participants' bodies become points of attraction within a living particle system — no controllers, screens, or instructions required. The moment someone steps into the space, their presence alone begins shaping the environment around them.
+                </p>
+                <h3>Concept &amp; intent</h3>
+                <p>Inspired by natural phenomena — the pull of starlight, the drift of energy fields — NeoGen visualizes the invisible forces that draw people together. The piece was designed around four core values: inclusion (no prior knowledge needed), curiosity (every gesture reveals something new), sharing (the work grows richer as more people join), and wild abandon (there is no "correct" way to engage).</p>
+
+                <h4>02 / From Prototype to Installation</h4>
+                <div class="case-gallery">
+                    <figure>
+                        <video controls preload="metadata" poster="images/neogen-particle-reference.png">
+                            <source src="images/NeoGen-Prototype.mp4" type="video/mp4">
+                        </video>
+                        <figcaption class="asset-label">TouchDesigner Hand Tracking Prototype</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/neogen-node-network.png" alt="TouchDesigner Node Network">
+                        <figcaption class="asset-label">Particle attractor node network</figcaption>
+                    </figure>
+                </div>
+                <h3>My role</h3>
+                <p>I led concept development, system design, and the working prototype build. Using TouchDesigner and real-time hand tracking as a stand-in for full-body presence detection, I built a system where each hand functions as an attractor node, with particles responding dynamically to proximity and motion. I also authored the concept pitch deck outlining the installation experience, technical approach, and audience interaction design for festival submission.</p>
+
+                <h4>03 / Technical System</h4>
+                <p>The prototype runs in TouchDesigner, using MediaPipe-based tracking to detect participant position in real time and feed it into a GPU particle system. Particles respond dynamically to proximity and motion, transforming physical gestures into a shifting field of light. The final installation is designed to scale this system to full-body depth sensing, with multiple participants tracked simultaneously across a shared space — no internet connection required, with all processing running locally.</p>
+
+                <h4>04 / Deployment &amp; Experience Design</h4>
+                <div class="case-gallery">
+                    <figure>
+                        <img src="images/neogen-footprint-diagram.png" alt="Installation Footprint Diagram">
+                        <figcaption class="asset-label">Spatial and technical requirements</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/config.png" alt="Floor Projection Configuration">
+                        <figcaption class="asset-label">Floor projection configuration</figcaption>
+                    </figure>
+                </div>
+                <p>As part of the pitch, I designed three deployment paths to fit different festival environments — a floor projection setup (most intuitive, particles emerging from participants' feet), a vertical LED wall (easiest to deploy, most self-contained), and an enclosed canopy or dome structure (most immersive, projecting the particle field overhead). Each configuration was scoped with its own spatial footprint, power, lighting, and budget requirements, ranging from roughly $800 for a simple LED wall setup to $8,000 for a full dome installation — giving festival organizers flexibility depending on venue and budget.</p>
+            </div>
+        </div>
+    </article>
+  </section>
+
+  <section class="play" id="play">
+    <header class="playhead">
+        <span class="mark">Playground / 04</span>
+        <button class="close" data-close="play">Close ×</button>
+    </header>
+    <h2>Move slowly.</h2>
+    <div class="canvas" id="canvas">
+        <canvas class="trail" id="trail"></canvas>
+        <div class="orb" id="orb"></div>
+        <p>fluid study<br>leave a little light behind</p>
     </div>
-  </div>
+  </section>
 
-  <script src="script.js"></script>
-</body>
-</html>
+  <section class="aboutcard" id="about">
+    <div class="aboutinner">
+        <span class="mark" style="color:var(--orange)">About Piper</span>
+        <h2>Making the digital feel tactile.</h2>
+        <p>I’m an interdisciplinary designer exploring the space between physical interaction and digital environments. My work moves between cameras, sketchbooks, Blender, TouchDesigner, and patient material tests.</p>
+        <button class="close" data-close="about">Back to the studio</button>
+    </div>
+  </section>
+
+  <section class="aboutcard" id="contact">
+    <div class="aboutinner">
+        <span class="mark" style="color:var(--orange)">Available for selected collaborations</span>
+        <h2>Let’s make something beautiful.</h2>
+        <p>
+            <a href="mailto:hello@piperfalcon.com" style="color:var(--cream)">hello@piperfalcon.com</a>
+            <br>
+            <br>Instagram · LinkedIn
+        </p>
+        <button class="close" data-close="contact">Back to the studio</button>
+    </div>
+  </section>
+
+  <script>
+    const cursor=document.querySelector('.cursor');
+    let x=innerWidth/2,
+        y=innerHeight/2,
+        tx=x,
+        ty=y;
+    addEventListener('pointermove',e=>{
+        tx=e.clientX;
+        ty=e.clientY
+    });
+        
+    (function loop(){
+        x+=(tx-x)*.12;
+        y+=(ty-y)*.12;
+        cursor.style.left=x+'px';
+        cursor.style.top=y+'px';
+        requestAnimationFrame(loop)
+    })();
+
+    const title=document.querySelector('#projectTitle'),
+        type=document.querySelector('#projectType'),
+        text=document.querySelector('#projectText'),
+        modal=document.querySelector('#projectModal'),
+        modalArt=document.querySelector('#modalArt'),
+        verdantDetail=document.querySelector('#verdantDetail'),
+        gutDetail=document.querySelector('#gutDetail'), 
+        breathDetail=document.querySelector('#breathDetail'), 
+        creativeDetail=document.querySelector('#creativeDetail'),
+        installationDetail=document.querySelector('#installationDetail');
+        
+    const projects={
+        "Verdant Echoes":["VR environment / 2025","An immersive VR installation exploring the emotional symbolism of plants across American and Korean cultural contexts."],
+        "my seeking gut":["Performance / XR / 2026","An immersive cross-cultural performance exploring healing and transformation through Ssitkim-gut, with AR/VR and audience participation."],
+        "Breath Between Spaces":["Bio-Responsive VR / 2026","A VR experience exploring breath, presence, and restorative interaction through immersive environments."],
+        "Creative Direction":["Visual Concept Work / 2026","Visual identities, promotional campaigns, and speculative branding for music artists.."],
+        "NeoGen":["Interactive Installation / 2026","A real-time interactive installation concept where participant movement shapes a living particle system, designed for Seven Stars Music Festival."]
+
+    };
+
+    document.querySelectorAll('.project').forEach(b=>{
+        b.addEventListener('click',()=>{
+            let name=b.dataset.project;
+            let p=projects[name];
+
+            title.innerHTML=
+              name==='my seeking gut'
+                ? 'my seeking<br>gut'
+                : name.replace(' ', '<br>');
+            
+            type.textContent=p[0];
+            text.textContent=p[1];
+            
+            let isVerdant=name==='Verdant Echoes';
+            let isGut=name==='my seeking gut';
+            let isBreath=name==='Breath Between Spaces';
+            let isCreative=name==='Creative Direction';
+            let isInstallation=name==='NeoGen'
+            
+            verdantDetail.classList.toggle('show',isVerdant);
+            gutDetail.classList.toggle('show',isGut);
+            breathDetail.classList.toggle('show',isBreath);
+            creativeDetail.classList.toggle('show',isCreative);
+            installationDetail.classList.toggle('show', isInstallation);
+            
+            modalArt.classList.toggle(
+                'has-image',
+                isVerdant || isBreath || isCreative || isInstallation
+            );
+            
+            modalArt.classList.toggle(
+                'has-video',
+                isGut || isBreath || isCreative || isInstallation
+            );
+            
+            modalArt.innerHTML=
+                isVerdant
+                    ? '<img src="images/verdant-greenhouse.png" alt="Interior of the Verdant Echoes virtual greenhouse">'
+                    : isGut
+                        ?'<video autoplay muted loop playsinline><source src="images/seeking-gut-performance-recording.mp4" type="video/mp4"></video>'
+                        : isBreath
+                            ? '<img src="images/breath-environment-overview.png" alt= "Breath Environment Overview">'
+                            : isCreative
+                                ? '<img src="images/creative-hero.jpg" alt="Creative Direction Overview">'
+                                : isInstallation
+                                    ? '<img src="images/neoGen-cover.jpg" alt="NeoGen Cover">'
+                                    :'';
+                            
+            modal.classList.add('open');
+        });
+        
+        b.addEventListener('mouseenter',() => {
+            cursor.classList.add('big');
+        });
+        
+        b.addEventListener('mouseleave',()=>{
+            cursor.classList.remove('big');
+        });
+    });
+    document.querySelectorAll('[data-open]').forEach(b=>{
+        b.onclick=()=>
+            document
+                .querySelector('#'+b.dataset.open)
+                .classList.add('open');
+    });
+
+    document.querySelectorAll('[data-close]').forEach(b=>{
+        b.onclick=()=>
+            document
+                .querySelector('#'+b.dataset.close)
+                .classList.remove('open');
+    });
+
+    modal.addEventListener('click',e=>{
+                if(e.target===modal){
+                    modal.classList.remove('open');
+                }
+    });
+
+    const notes=[
+        'Next process note ↓',
+        'made in blender + TouchDesigner',
+        'prototype 07 / still unfinished',
+        'a material test, not an answer'
+    ];
+
+    document.querySelectorAll(".coverflow-stage").forEach(stage=> {
+        const covers = stage.querySelectorAll(".cover");
+
+        let current = 0;
+
+        function updateCoverFlow(){
+
+            covers.forEach((cover,index)=>{
+                const offset = index-current;
+                let x = offset*170;
+                let y =
+                    offset===0
+                    ? -20
+                    : 0;
+                let depth = -Math.abs(offset)*260;
+                let rotate = 0;
+                let scale = 1;
+                if(offset < 0){
+                    rotate = 58;
+                    scale = .75;
+                    x-= 40;
+                }
+
+                if(offset > 0){
+                    rotate = -58;
+                    scale = .75;
+                    x += 40;
+                }
+
+                if(offset ===0){
+                    rotate = 0;
+                    scale = 1;
+                    depth = 120;
+                }
+                let zIndex = 100-Math.abs(offset);
+                let opacity = Math.abs(offset)>4 ? 0 : 1;
+                cover.style.zIndex = zIndex;
+                cover.style.opacity =
+                    Math.max(.15,1-Math.abs(offset)*.22);
+                cover.style.filter=
+                    offset===0
+                    ? "brightness(1)"
+                    : "brightness(.55)";
+                cover.style.transform = 
+                `
+                translate(-50%, -50%)
+                translate3d(${x}px, ${y}px, ${depth}px)
+                rotateY(${rotate}deg)
+                scale(${scale})
+                `;
+
+                const video = cover.querySelector("video");
+                if (video){
+
+                    if (index === current) {
+                        video.play();
+                    } else {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                }
+            });
+        }
+
+        stage.querySelector(".next").onclick=()=>{
+            current=(current + 1) % covers.length;
+
+            updateCoverFlow();
+        };
+
+        stage.querySelector(".prev").onclick=()=>{
+
+            current = (current - 1 + covers.length)%covers.length;
+
+            updateCoverFlow();
+
+        };
+
+        updateCoverFlow();
+    });
+
+    let note=0;
+
+    document.querySelector('#cycle').onclick=e=>{
+        note=(note+1)%notes.length;
+        e.target.textContent=notes[note];
+    };
+    
+    const canvas=document.querySelector('#canvas');
+    const orb=document.querySelector('#orb');
+    const trail=document.querySelector('#trail');
+    const ctx=trail.getContext('2d');
+
+    let last=null;
+
+            function resizeTrail(){
+                let r=canvas.getBoundingClientRect(),
+                    d=devicePixelRatio||1;
+                trail.width=r.width*d;
+                trail.height=r.height*d;
+                ctx.setTransform(d,0,0,d,0,0);
+                last=null
+            }
+            
+            resizeTrail();
+            addEventListener('resize',resizeTrail);
+            canvas.addEventListener('pointermove',e=>{
+                let r=canvas.getBoundingClientRect(),
+                    px=e.clientX-r.left,
+                    py=e.clientY-r.top;
+                orb.style.left=px+'px';
+                orb.style.top=py+'px';
+                orb.style.transform=`translate(-50%,-50%) scale(${.8+py/r.height*.7})`;
+                if(last){
+                    let gradient=ctx.createLinearGradient(last.x,last.y,px,py);
+                    gradient.addColorStop(0,'rgba(255,104,63,.06)');
+                    gradient.addColorStop(.55,'rgba(255,156,96,.72)');
+                    gradient.addColorStop(1,'rgba(255,233,194,.92)');
+                    ctx.strokeStyle=gradient;
+                    ctx.lineWidth=7;
+                    ctx.lineCap='round';
+                    ctx.shadowBlur=22;
+                    ctx.shadowColor='#ff7547';
+                    ctx.beginPath();
+                    ctx.moveTo(last.x,last.y);
+                    ctx.lineTo(px,py);
+                    ctx.stroke();
+                    ctx.lineWidth=2;
+                    ctx.strokeStyle='rgba(255,241,214,.9)';
+                    ctx.shadowBlur=8;
+                    ctx.stroke()
+                }
+                last={
+                    x:px,
+                    y:py
+                }
+            });
+            
+            canvas.addEventListener('pointerleave',()=>last=null);
+            (function fadeTrail(){
+                ctx.save();
+                ctx.globalCompositeOperation='destination-out';
+                ctx.fillStyle='rgba(0,0,0,.018)';
+                ctx.fillRect(0,0,trail.width,trail.height);
+                ctx.restore();
+                requestAnimationFrame(fadeTrail)
+            })();
+  </script>
+</body></html>
