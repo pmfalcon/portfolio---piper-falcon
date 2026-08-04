@@ -1404,14 +1404,16 @@
         gutDetail=document.querySelector('#gutDetail'), 
         breathDetail=document.querySelector('#breathDetail'), 
         creativeDetail=document.querySelector('#creativeDetail'),
-        installationDetail=document.querySelector('#installationDetail');
+        installationDetail=document.querySelector('#installationDetail'),
+        currentDetail=document.querySelector('#currentDetail');
         
     const projects={
         "Verdant Echoes":["VR environment / 2025","An immersive VR installation exploring the emotional symbolism of plants across American and Korean cultural contexts."],
         "my seeking gut":["Performance / XR / 2026","An immersive cross-cultural performance exploring healing and transformation through Ssitkim-gut, with AR/VR and audience participation."],
         "Breath Between Spaces":["Bio-Responsive VR / 2026","A VR experience exploring breath, presence, and restorative interaction through immersive environments."],
         "Creative Direction":["Visual Concept Work / 2026","Visual identities, promotional campaigns, and speculative branding for music artists.."],
-        "NeoGen":["Interactive Installation / 2026","A real-time interactive installation concept where participant movement shapes a living particle system, designed for Seven Stars Music Festival."]
+        "NeoGen":["Interactive Installation / 2026","A real-time interactive installation concept where participant movement shapes a living particle system, designed for Seven Stars Music Festival."],
+        "Rip Current / 1997":["Editorial Design / 2026", "A fictional 1990s-inspired surf and culture magazine exploring road trips, music, photography, and the fleeting feeling of summer."]
 
     };
 
@@ -1432,17 +1434,21 @@
             let isGut=name==='my seeking gut';
             let isBreath=name==='Breath Between Spaces';
             let isCreative=name==='Creative Direction';
-            let isInstallation=name==='NeoGen'
+            let isInstallation=name==='NeoGen';
+            let isCurrent=name==='Rip Current / 1997';
+
             
             verdantDetail.classList.toggle('show',isVerdant);
             gutDetail.classList.toggle('show',isGut);
             breathDetail.classList.toggle('show',isBreath);
             creativeDetail.classList.toggle('show',isCreative);
             installationDetail.classList.toggle('show', isInstallation);
+            currentDetail.classlist.toggle('show',isCurrent);
+
             
             modalArt.classList.toggle(
                 'has-image',
-                isVerdant || isBreath || isCreative || isInstallation
+                isVerdant || isBreath || isCreative || isInstallation || isCurrent
             );
             
             modalArt.classList.toggle(
@@ -1461,7 +1467,9 @@
                                 ? '<img src="images/creative-hero.jpg" alt="Creative Direction Overview">'
                                 : isInstallation
                                     ? '<img src="images/neoGen-cover.jpg" alt="NeoGen Cover">'
-                                    :'';
+                                    : isCurrent
+                                        ? '<img src="images/surf-cover.jpg" alt="Editorial Design">'
+                                        : '';
                             
             modal.classList.add('open');
         });
