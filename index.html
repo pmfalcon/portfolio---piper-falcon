@@ -26,7 +26,8 @@
         font-family:var(--sans);
         font-weight:300;
         min-height:100svh;
-        overflow:hidden;
+        overflow-x:hidden;
+        overflow-y:auto;
     }
     .grain{
         position:fixed;
@@ -103,11 +104,11 @@
             transform:translate(-14vw,18vh) scale(1.35);
         }}
     .shell{
-        height:100svh;
-        min-height:620px;
+        min-height:100svh;
+        height:auto;
         padding:24px clamp(20px,4vw,58px);
         display:grid;
-        grid-template-rows:auto 1fr auto;
+        grid-template-rows:auto auto auto;
     }
     .top{
         display:flex;
@@ -794,7 +795,7 @@
                 <strong>NeoGen</strong>
             </button>
             <button class="project image-project" data-project="Rip Current / 1997">
-                <img src="images/coastline-cover.jpg" alt="Coastline 1997 magazine cover">
+                <img src="images/surf-cover.jpg" alt="Coastline 1997 magazine cover">
                 <small>06 / Editorial Design</small>
                 <strong>Rip Current<br>/ 1997</strong>
             </button>
@@ -1162,11 +1163,11 @@
                 <p>As part of the pitch, I designed three deployment paths to fit different festival environments — a floor projection setup (most intuitive, particles emerging from participants' feet), a vertical LED wall (easiest to deploy, most self-contained), and an enclosed canopy or dome structure (most immersive, projecting the particle field overhead). Each configuration was scoped with its own spatial footprint, power, lighting, and budget requirements, ranging from roughly $800 for a simple LED wall setup to $8,000 for a full dome installation — giving festival organizers flexibility depending on venue and budget.</p>
             </div>
 
-            <div class="case-study" id="coastlineDetail">
+            <div class="case-study" id="currentDetail">
                 <h4>01 / The Publication</h4>
                 <div class="case-gallery environment">
                     <figure>
-                        <img src="images/coastline-cover.jpg"
+                        <img src="images/surf-cover.jpg"
                             alt="Coastline 1997 magazine cover">
                         <figcaption class="asset-label">
                             Cover / Coastline Issue 03
@@ -1175,7 +1176,7 @@
                 </div>
                 <h3>Project overview</h3>
                 <p>
-                    <em>Coastline / 1997</em> is a fictional editorial publication inspired by the visual language of 1990s surf magazines. Rather than recreating a vintage publication literally, I reinterpreted its tactile photography, imperfect typography, collage-driven layouts, and youth culture through a contemporary art direction.
+                    <em>Rip Current / 1997</em> is a fictional editorial publication inspired by the visual language of 1990s surf magazines. Rather than recreating a vintage publication literally, I reinterpreted its tactile photography, imperfect typography, collage-driven layouts, and youth culture through a contemporary art direction.
                 </p>
                 <h3>Concept &amp; intent</h3>
 
@@ -1192,16 +1193,16 @@
                 <div class="case-gallery">
 
                     <figure>
-                        <img src="images/coastline-moodboard.jpg"
-                            alt="Coastline magazine visual moodboard">
+                        <img src="images/moodboard.jpg"
+                            alt="Rip Current magazine visual moodboard">
                         <figcaption class="asset-label">
                             Visual research &amp; moodboard
                         </figcaption>
                     </figure>
 
                     <figure>
-                        <img src="images/coastline-type.jpg"
-                            alt="Coastline magazine typography exploration">
+                        <img src="images/magazine-type.jpg"
+                            alt="Magazine typography exploration">
                         <figcaption class="asset-label">
                             Typography &amp; layout studies
                         </figcaption>
@@ -1215,7 +1216,7 @@
                 <div class="case-gallery environment">
 
                     <figure>
-                        <img src="images/coastline-roadtrip.jpg"
+                        <img src="images/roadtrip-coverstory.jpg"
                             alt="Coastline road trip editorial spread">
                         <figcaption class="asset-label">
                             Cover story / The Last Exit Before the Ocean
@@ -1244,10 +1245,10 @@
                 <div class="case-gallery">
 
                     <figure>
-                        <img src="images/coastline-music-editorial.jpg"
+                        <img src="images/sugarstatic.jpg"
                             alt="Coastline music editorial spread">
                         <figcaption class="asset-label">
-                            Music editorial / Sound of the Coast
+                            Music Advertisement Spread / Sugar Static
                         </figcaption>
                     </figure>
 
