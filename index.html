@@ -705,7 +705,7 @@
         align-items:center;
         transform-style:preserve-3d;
         transform-origin: center center;
-        transition:transform 2.5s cubic-bezier(.25,.85,.25,1), opacity:.9s, filter .9s;
+        transition:transform 2.5s cubic-bezier(.25,.85,.25,1), opacity.9s, filter .9s;
         cursor:pointer;
     }
 
@@ -1320,7 +1320,7 @@
                         <figcaption class="asset-label">Custom gobo / light texture studies</figcaption>
                     </figure>
                     <figure>
-                        <img src="images/jordan-lighting-concept.jpg" alt="Jordan Rein lighting concept study">
+                        <img src="images/lighting-inspo.jpg" alt="Jordan Rein lighting concept study">
                         <figcaption class="asset-label">Warm spotlight + organic shadow research</figcaption>
                     </figure>
                 </div>
@@ -1329,10 +1329,16 @@
                 <h4>03 / Live camera + projection</h4>
                 <div class="case-gallery environment">
                     <figure>
-                        <video controls muted loop playsinline preload="metadata" poster="images/jordan-camera-study.jpg">
-                            <source src="images/jordan-camera-study.mp4" type="video/mp4">
+                        <video controls muted loop playsinline preload="metadata" poster="images/analog-cam-ss.png">
+                            <source src="images/analog-experiment.MP4" type="video/mp4">
                         </video>
                         <figcaption class="asset-label">Live camera / analog processing study</figcaption>
+                    </figure>
+                    <figure>
+                        <video controls muted loop playsinline preload="metadata" poster="images/camcorder-ss.png">
+                            <source src="images/crt-camcorder.mp4" type="video/mp4">
+                        </video>
+                        <figcaption class="asset-label">Live camcorder feed processed into TouchDesigner</figcaption>
                     </figure>
                 </div>
                 <p>One of the central experiments is projecting live footage from an iPhone or camcorder and deliberately degrading or delaying the image. Camera footage can be processed through TouchDesigner to introduce ghosting, feedback, blur, noise, scan lines, and other analog-looking artifacts before being sent to the projector. This creates a live image that feels closer to a physical video artifact than a polished digital feed.</p>
@@ -1340,11 +1346,15 @@
                 <h4>04 / Analog visual experiments</h4>
                 <div class="case-gallery">
                     <figure>
-                        <img src="images/jordan-liquid-light.jpg" alt="Liquid light projection experiment for Jordan Rein live visuals">
+                        <video controls muted loop playsinline preload="metadata" poster="images/liquid-light-ss.png">
+                            <source src="images/liquid-light-projection.mp4" type="video/mp4">
+                        </video>
                         <figcaption class="asset-label">Liquid light / oil + water projection study</figcaption>
                     </figure>
                     <figure>
-                        <img src="images/jordan-analog-study.jpg" alt="Analog texture and VHS visual study">
+                        <video controls muted loop playsinline preload="metadata" poster="images/rein-scanline-ss.png">
+                            <source src="images/rein-logo-projection.mp4" type="video/mp4">
+                        </video>
                         <figcaption class="asset-label">Analog texture / VHS-inspired processing</figcaption>
                     </figure>
                 </div>
@@ -1353,11 +1363,15 @@
                 <h4>05 / TouchDesigner visual system</h4>
                 <div class="case-gallery">
                     <figure>
-                        <img src="images/jordan-touchdesigner.jpg" alt="TouchDesigner live visual system for Jordan Rein">
+                        <video controls muted loop playsinline preload="metadata" poster="images/analog-ss.png">
+                            <source src="images/analog-feedback-vid.mp4" type="video/mp4">
+                        </video>
                         <figcaption class="asset-label">Real-time visual processing system</figcaption>
                     </figure>
                     <figure>
-                        <img src="images/jordan-visuals-study.jpg" alt="Pre-made TouchDesigner visual studies">
+                        <video controls muted loop playsinline preload="metadata" poster="images/glitch-ss.png">
+                            <source src="images/glitch-flash.mp4" type="video/mp4">
+                        </video>
                         <figcaption class="asset-label">Pre-made visual studies / motion language</figcaption>
                     </figure>
                 </div>
@@ -1642,7 +1656,7 @@
                                     : isCurrent
                                         ? '<img src="images/surf-cover.jpg" alt="Editorial Design">'
                                         : isJordan
-                                             ? '<img src="images/jordan-rein-hero.jpg" alt="Jordan Rein live visual and lighting system concept">'
+                                             ? '<img src="images/rein-website.png" alt="Jordan Rein live visual and lighting system concept">'
                                              : '';;
                             
             modal.classList.add('open');
